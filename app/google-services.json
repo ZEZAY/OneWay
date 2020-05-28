@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "786516485483",
+    "firebase_url": "https://one-way-3157a.firebaseio.com",
+    "project_id": "one-way-3157a",
+    "storage_bucket": "one-way-3157a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786516485483:android:8fe6fe655b8b9d9777182e",
+        "android_client_info": {
+          "package_name": "com.zaga.oneway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786516485483-jgvou1l5nuru3fg7rlf8qvqaqlj68blk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnNmlNb46v2De9T2WJ2ahCRGKpuIbPpo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786516485483-jgvou1l5nuru3fg7rlf8qvqaqlj68blk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

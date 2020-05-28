@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    bar's item list -->
+<!--    only call at java activity -->
+    <item
+        android:id="@+id/edit_itemBar"
+        android:title="edit?"
+        android:icon="@drawable/ic_create_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/removeAll_itemBar"
+        android:title="Remove All"
+        app:showAsAction="never"/>
+
+</menu>
