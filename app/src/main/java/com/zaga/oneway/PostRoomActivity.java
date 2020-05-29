@@ -1,6 +1,7 @@
 package com.zaga.oneway;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,12 +10,19 @@ import android.widget.TextView;
 
 public class PostRoomActivity extends AppCompatActivity {
 
+    private String roomName;
     private String roomDetail;
+    private Toolbar roomToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_room);
+
+        roomName = getIntent().getExtras().get("Room").toString();
+        roomToolbar = findViewById(R.id.toolbar);
+        roomToolbar.setTitle(roomName);
 
 //        database reader here !!!
 //        roomDetail = ...
