@@ -1,15 +1,25 @@
 package com.zaga.oneway;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class FindRoomActivity extends AppCompatActivity {
+
+    private static final String TAG = "DocSnippets";
 
     private ArrayList<Room> rooms;
     private RecyclerView roomsView;
@@ -22,17 +32,30 @@ public class FindRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find_room);
 
         createRecyclerView();
-        buildRecyclerView();
     }
 
     private void createRecyclerView() {
         rooms = new ArrayList<>();
-        rooms.add(new Room("room A", "ha?"));
-        rooms.add(new Room("rom-Bj% 555", "ha?"));
-        rooms.add(new Room("qwizeet me ya--", "ha?"));
-        rooms.add(new Room("room S", "ha?"));
-        rooms.add(new Room("what??", "?"));
         // database here
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Rooms")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String name = document.getData().get("roomName").toString();
+                                String detail = document.getData().get("roomDetail").toString();
+                                Room room = new Room(name, detail);
+                                rooms.add(room);
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                        buildRecyclerView();
+                    }
+                });
     }
 
     private void buildRecyclerView() {
@@ -52,7 +75,8 @@ public class FindRoomActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Intent goToPost = new Intent(FindRoomActivity.this, PostRoomActivity.class);
-                goToPost.putExtra("Room", rooms.get(position).getRoomName());
+                goToPost.putExtra("RoomName", rooms.get(position).getRoomName());
+                goToPost.putExtra("roomDetail", rooms.get(position).getRoomDetail());
                 startActivity(goToPost);
             }
         });

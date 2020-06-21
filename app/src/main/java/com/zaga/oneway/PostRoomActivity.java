@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PostRoomActivity extends AppCompatActivity {
 
@@ -24,8 +25,7 @@ public class PostRoomActivity extends AppCompatActivity {
         roomToolbar = findViewById(R.id.toolbar);
         roomToolbar.setTitle(roomName);
 
-//        database reader here !!!
-//        roomDetail = ...
+        roomDetail = getIntent().getExtras().get("roomDetail").toString();
         ((TextView) findViewById(R.id.tv_room_detail)).setText(roomDetail);
 
         findViewById(R.id.btn_send_msg).setOnClickListener(new View.OnClickListener() {
@@ -34,7 +34,7 @@ public class PostRoomActivity extends AppCompatActivity {
                 String msg = ((EditText) findViewById(R.id.et_msg)).getText().toString().trim();
                 if (!msg.isEmpty()) {
                     // database here
-                }
+                } else Toast.makeText(getApplicationContext(), "Send Error: text not found", Toast.LENGTH_SHORT);
             }
         });
     }

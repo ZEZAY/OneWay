@@ -37,7 +37,7 @@
         android:id="@+id/et_room_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Room Name"
+        android:hint="Room Detail"
         android:textSize="18sp"
         android:textColor="@color/colorPrimaryDark"
         android:background="@drawable/button_model"

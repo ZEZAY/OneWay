@@ -60,7 +60,6 @@ public class BoardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void createRecyclerView() {
         posts = new ArrayList<>();
         posts.add(new Post("555"));
