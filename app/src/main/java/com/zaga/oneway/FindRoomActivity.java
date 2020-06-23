@@ -21,7 +21,7 @@ public class FindRoomActivity extends AppCompatActivity {
 
     private static final String TAG = "DocSnippets";
 
-    private ArrayList<Room> rooms;
+    ArrayList<Room> rooms;
     private RecyclerView roomsView;
     private RoomsViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -75,7 +75,7 @@ public class FindRoomActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Intent goToPost = new Intent(FindRoomActivity.this, PostRoomActivity.class);
-                goToPost.putExtra("RoomName", rooms.get(position).getRoomName());
+                goToPost.putExtra("roomName", rooms.get(position).getRoomName());
                 goToPost.putExtra("roomDetail", rooms.get(position).getRoomDetail());
                 startActivity(goToPost);
             }

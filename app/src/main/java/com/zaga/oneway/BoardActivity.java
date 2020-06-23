@@ -1,38 +1,55 @@
 package com.zaga.oneway;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardActivity extends AppCompatActivity {
 
+    private static final String TAG = "DocSnippets";
+
     private Toolbar roomToolbar;
+    private String roomName;
     private ArrayList<Post> posts;
     private RecyclerView postsView;
     private PostsViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
         // add bar
+        roomName = getIntent().getExtras().get("roomName").toString();
         roomToolbar = findViewById(R.id.toolbar);
-        roomToolbar.setTitle(""); // remove app name
+        roomToolbar.setTitle(roomName);
         setSupportActionBar(roomToolbar);
 
         createRecyclerView();
-        buildRecyclerView();
     }
 
     // add bar's items
@@ -62,12 +79,26 @@ public class BoardActivity extends AppCompatActivity {
 
     private void createRecyclerView() {
         posts = new ArrayList<>();
-        posts.add(new Post("555"));
-        posts.add(new Post("fyck"));
-        posts.add(new Post("ha??"));
-        posts.add(new Post("what the ---"));
-        posts.add(new Post("get some food"));
         // database here
+        db = FirebaseFirestore.getInstance();
+        db.collection("Posts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String room = document.getData().get("room").toString();
+                                String msg = document.getData().get("msg").toString();
+                                if (roomName.equals(room))
+                                    posts.add(new Post(room, msg));
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                        buildRecyclerView();
+                    }
+                });
     }
 
     private void buildRecyclerView() {
