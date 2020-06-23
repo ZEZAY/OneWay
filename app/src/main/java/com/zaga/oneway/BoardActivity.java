@@ -60,6 +60,7 @@ public class BoardActivity extends AppCompatActivity {
         return true;
     }
 
+    // add bar's items action
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -71,6 +72,12 @@ public class BoardActivity extends AppCompatActivity {
         if (id == R.id.removeAll_itemBar) {
             Toast.makeText(getApplicationContext(), "removed all", Toast.LENGTH_SHORT).show();
             adapter.updateData(new ArrayList<Post>());
+            return true;
+        }
+
+        if (id == R.id.renew_itemBar) {
+            Toast.makeText(getApplicationContext(), "renew", Toast.LENGTH_SHORT).show();
+            createRecyclerView();
             return true;
         }
 
